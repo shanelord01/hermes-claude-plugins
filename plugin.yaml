@@ -1,0 +1,13 @@
+name: claude-plugins
+version: 0.1.0
+description: >-
+  Install Claude Code plugins into Hermes. Adds Claude Code marketplaces, installs their plugins,
+  and translates them: skills and MCP servers load as Hermes packages, commands become skills with
+  slash commands, and hooks run through Hermes lifecycle hooks once you accept them.
+author: Shane Lord
+provides_hooks:
+  - pre_llm_call
+  - on_session_end
+  - pre_tool_call
+  - post_tool_call
+  - on_session_finalize
