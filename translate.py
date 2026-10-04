@@ -139,6 +139,14 @@ def unsupported_parts(plugin_dir: Path, manifest: dict, hooks: dict) -> list:
         notes.append("output styles: no Hermes equivalent")
     if manifest.get("lspServers") or (plugin_dir / ".lsp.json").is_file():
         notes.append("LSP servers: no Hermes equivalent")
+    default_hooks = plugin_dir / "hooks" / "hooks.json"
+    try:
+        modules = _read_json(default_hooks).get("modules") if default_hooks.is_file() else None
+    except (OSError, ValueError):
+        modules = None
+    if modules:
+        notes.append("hooks module %s (a Claude Code mod): runs only inside Claude Code; its command hooks run here instead"
+                     % ", ".join(str(m) for m in modules))
     for event in hooks:
         if event not in SUPPORTED_EVENTS:
             notes.append("%s hooks: no Hermes equivalent, not run" % event)

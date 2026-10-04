@@ -263,6 +263,8 @@ class TestRealPlugin(unittest.TestCase):
         ops.marketplace_add(str(SHAREDBRAIN))
         report = "\n".join(ops.install("mempalace-sharedbrain", accept_hooks=True))
         self.assertIn("/mempalace-sharedbrain-inbox", report)
+        if "modules" in json.loads((SHAREDBRAIN / "hooks" / "hooks.json").read_text()):
+            self.assertIn("a Claude Code mod", report)
         self.assertIn("PreCompact hooks", report)
         cfg = TMP / "sb-config.json"
         cfg.write_text(json.dumps({"identity": {"host": "testhost", "harness": "hermes"}, "hub": {"transport": "none"}}))
